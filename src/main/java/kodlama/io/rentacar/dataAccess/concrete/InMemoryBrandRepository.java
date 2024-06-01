@@ -2,10 +2,11 @@ package kodlama.io.rentacar.dataAccess.concrete;
 
 import kodlama.io.rentacar.dataAccess.abstracts.BrandRepository;
 import kodlama.io.rentacar.entities.Brand;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Component
 public class InMemoryBrandRepository implements BrandRepository {
 
     List<Brand> brands;
