@@ -1,10 +1,10 @@
 package kodlama.io.rentacar.webApi.controllers;
 
 import kodlama.io.rentacar.business.abstracts.BrandService;
+import kodlama.io.rentacar.business.request.CreateBrandRequest;
 import kodlama.io.rentacar.business.response.getAllBrandsResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,17 +14,21 @@ public class BrandsController {
 
     private BrandService brandService;
 
-
-    //@Autowired yeni versiyonda springboot otomatik yapar
+    //@Autowired  springboot yeni versiyonda otomatik yapar
     public BrandsController(BrandService brandService) {
         this.brandService = brandService;
     }
-    @GetMapping("/getAll")
+
+    @GetMapping()
     public List<getAllBrandsResponse> getAll()
     {
         return brandService.getALl();
+    }
 
-
-
+    @PostMapping()
+    @ResponseStatus(code = HttpStatus.CREATED)
+    public  void add (CreateBrandRequest createBrandRequest)
+    {
+        this.brandService.add(createBrandRequest);
     }
 }
