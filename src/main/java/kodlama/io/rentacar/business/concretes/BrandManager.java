@@ -15,27 +15,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
-@NoArgsConstructor
 public class BrandManager implements BrandService {
 
-    private BrandRepository brandRepository;
+    private final BrandRepository brandRepository;
 
-    public BrandManager(BrandRepository brandRepository) {
-        this.brandRepository = brandRepository;
-    }
 
-    private ModelMappersService   modelMappersService;
+
+    private final ModelMappersService   modelMappersService;
 
     @Autowired
-    public BrandManager(ModelMappersService modelMappersService) {
+    public BrandManager(BrandRepository brandRepository, ModelMappersService modelMappersService) {
+        this.brandRepository = brandRepository;
         this.modelMappersService = modelMappersService;
     }
 
 
     @Override
     public List<getAllBrandsResponse> getALl() {
-        List<Brand> brands = brandRepository.findAll();
+        List<Brand> brands = brandRepository.findAll();gi
        // List<getAllBrandsResponse> brandsResponses = new ArrayList<>();
 
         //Mapping
@@ -58,6 +55,6 @@ public class BrandManager implements BrandService {
        // Brand brand = new Brand();
       //  brand.setName(createBrandRequest.getName());
           Brand brand = this.modelMappersService.forRequest().map(createBrandRequest,Brand.class);
-          this.brandRepository.save(brand);
+          brandRepository.save(brand);
     }
 }
