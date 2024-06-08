@@ -2,7 +2,9 @@ package kodlama.io.rentacar.business.concretes;
 
 import kodlama.io.rentacar.business.abstracts.BrandService;
 import kodlama.io.rentacar.business.request.CreateBrandRequest;
+import kodlama.io.rentacar.business.request.UpdateRequest;
 import kodlama.io.rentacar.business.response.getAllBrandsResponse;
+import kodlama.io.rentacar.business.response.getByIdResponse;
 import kodlama.io.rentacar.core.mappers.ModelMappersService;
 import kodlama.io.rentacar.dataAccess.abstracts.BrandRepository;
 import kodlama.io.rentacar.entities.Brand;
@@ -32,7 +34,7 @@ public class BrandManager implements BrandService {
 
     @Override
     public List<getAllBrandsResponse> getALl() {
-        List<Brand> brands = brandRepository.findAll();gi
+        List<Brand> brands = brandRepository.findAll();
        // List<getAllBrandsResponse> brandsResponses = new ArrayList<>();
 
         //Mapping
@@ -51,10 +53,31 @@ public class BrandManager implements BrandService {
     }
 
     @Override
+    public getByIdResponse getById(int id) {
+       Brand brand = this.brandRepository.findById(id).orElseThrow();
+        getByIdResponse  response= this.modelMappersService.forResponse().map(brand,getByIdResponse.class);
+
+        return  response;
+    }
+
+    @Override
     public void add(CreateBrandRequest createBrandRequest) {
        // Brand brand = new Brand();
       //  brand.setName(createBrandRequest.getName());
           Brand brand = this.modelMappersService.forRequest().map(createBrandRequest,Brand.class);
           brandRepository.save(brand);
+    }
+
+    @Override
+    public void update(UpdateRequest updateBrandRequest) {
+
+        Brand brand = this.modelMappersService.forRequest().map(updateBrandRequest,Brand.class);
+        brandRepository.save(brand);
+
+    }
+
+    @Override
+    public void delete(int id) {
+        this.brandRepository.deleteById(id);
     }
 }
